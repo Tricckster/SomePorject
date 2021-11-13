@@ -12,7 +12,7 @@ for i in range(5):
         y=i*25+3
         c.create_rectangle(x, y, x+40, y+20,fill='red')
 
-c.create_rectangle(150, 300, 250, 350,fill='yellow')
+c.create_rectangle(150, 300, 250, 350,fill='blue')
 
 button = Button(root, text="Quit", command=root.destroy)
 
