@@ -22,11 +22,13 @@ if music == 4:
     pygame.mixer.music.play(-1)
 
 W, H, FPS = 608, 1000, 60
+result = 1
 # collors
 white = (255, 255, 255)
 blue = (0, 70, 225)
 green = (70, 255, 0)
 red = (255, 0, 0)
+
 BLACK = (0, 0, 0)
 # plf settings
 plf_w, plf_h = 100, 20
@@ -86,8 +88,9 @@ while 1:
     pygame.draw.rect(surf, white, plf, 2)
     pygame.draw.circle(surf, pygame.Color('white'), ball.center, ball_radius, 2)
     # ball movement
-    ball.x += ball_speed * dx
-    ball.y += ball_speed * dy
+    if result==1:
+        ball.x += ball_speed * dx
+        ball.y += ball_speed * dy
     # collision left right
     if ball.centerx < ball_radius or ball.centerx > W - ball_radius:
         dx = -dx
@@ -104,27 +107,20 @@ while 1:
         hit_color = color_list.pop(hit_index)
         dx, dy = detect_collision(dx, dy, ball, hit_rect)
 
-    # win, game over
-    if ball.bottom > H:
-        surf.fill(BLACK)
-        sc.fill(BLACK)
-        f1 = pygame.font.Font(None, 36)
-        text1 = f1.render('GAME OVER', True, white)
-        sc.blit(text1, (870, 540))
-        pygame.display.update()
-        pygame.time.delay(100)
-    elif not len(block_list):
-        surf.fill(BLACK)
-        sc.fill(BLACK)
-        f1 = pygame.font.Font(None, 36)
-        text1 = f1.render('WIN', True, white)
-        sc.blit(text1, (870, 540))
-        pygame.display.update()
-        pygame.time.delay(100)
-
     pygame.draw.rect(surf, white, (0, 0, W, H), 1)
     sc.blit(surf, ((sc.get_width() - W) // 2, (sc.get_height() - H) // 2))
 
+    # win, game over
+    if ball.bottom > H or result==0:
+        f1 = pygame.font.Font(None, 36)
+        text1 = f1.render('GAME OVER', True, white)
+        sc.blit(text1, (870, 540))
+        result = 0
+    elif not len(block_list) or result==2:
+        f1 = pygame.font.Font(None, 36)
+        text1 = f1.render('WIN', True, 'yellow')
+        surf.blit(text1, (870, 540))
+        result = 2
     # control
     key = pygame.key.get_pressed()
     if key[pygame.K_LEFT] and plf.left > 0:
@@ -132,5 +128,5 @@ while 1:
     if key[pygame.K_RIGHT] and plf.right < W - 1:
         plf.right += plf_speed
     # update screen
-    pygame.display.flip()
+    pygame.display.update()
     clock.tick(FPS)
