@@ -111,12 +111,12 @@ while 1:
     sc.blit(surf, ((sc.get_width() - W) // 2, (sc.get_height() - H) // 2))
 
     # win, game over
-    if ball.bottom > H or result==0:
+    if ball.bottom > H or result == 0:
         f1 = pygame.font.Font(None, 36)
         text1 = f1.render('GAME OVER', True, white)
-        sc.blit(text1, (870, 540))
+        sc.blit(text1, (890, 540))
         result = 0
-    elif not len(block_list) or result==2:
+    elif not len(block_list) or result == 2:
         f1 = pygame.font.Font(None, 36)
         text1 = f1.render('WIN', True, 'yellow')
         surf.blit(text1, (870, 540))
