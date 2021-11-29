@@ -2,25 +2,26 @@ import pygame
 import pygame_menu as pm
 import random
 pygame.init()
-surface = pygame.display.set_mode((1920, 1080))
+bg=pygame.image.load("bg.jpg")
+surface = pygame.display.set_mode((1024, 800))
 
 def start_the_game():
     music = random.randint(1, 4)
     if music == 1:
         pygame.mixer.music.load('DVRST - Close Eyes (Slowed Reverb).mp3')
-        pygame.mixer.music.set_volume(1)
+        pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play(-1)
     if music == 2:
         pygame.mixer.music.load('hxvrmxn-headlights-flashes.mp3')
-        pygame.mixer.music.set_volume(1)
+        pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play(-1)
     if music == 3:
         pygame.mixer.music.load('Perturbator_-_Future_Club.mp3')
-        pygame.mixer.music.set_volume(1)
+        pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play(-1)
     if music == 4:
         pygame.mixer.music.load('prxsxnt-fxture-tokyo-drift.mp3')
-        pygame.mixer.music.set_volume(1)
+        pygame.mixer.music.set_volume(0.2)
         pygame.mixer.music.play(-1)
 
     W, H, FPS = 608, 1000, 60
@@ -132,8 +133,21 @@ def start_the_game():
         clock.tick(FPS)
     pass
 
-menu = pm.Menu('Let`s start', 400, 300, theme=pm.themes.THEME_DARK)
+menu = pm.Menu('Let`s start', 300, 200, theme=pm.themes.THEME_DARK)
 
 menu.add.button('Play', start_the_game)
 menu.add.button('Quit', pm.events.EXIT)
-menu.mainloop(surface)
+while True:
+
+    surface.blit(bg, (0, 0))
+
+    events = pygame.event.get()
+    for event in events:
+        if event.type == pygame.QUIT:
+            exit()
+
+    if menu.is_enabled():
+        menu.update(events)
+        menu.draw(surface)
+
+    pygame.display.update()
